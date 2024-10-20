@@ -24,6 +24,9 @@ export class Page {
     @Column({ type: 'jsonb', nullable: false, comment: 'Datas' })
     datas: { [ data in string ]: { name: string } }
 
+    @Column({ type: 'text', array: true, nullable: true, default: null, comment: 'Data order' })
+    data_order: Array<string>
+
     @Column({ type: 'jsonb', nullable: false, comment: 'Datas' })
     sheets: { [ name in string ]: { zone: string, datas: { [ data in string ]: string } } }
 

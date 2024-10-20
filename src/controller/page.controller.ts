@@ -25,7 +25,7 @@ export class PageController {
             title: _pages[0].title,
             description: _pages[0].description,
             filtering: _pages[0].filtering,
-            option: Object.keys(_pages[0].datas).map(_option => {
+            option: Object.keys(_pages[0].datas).sort((_previous, _current) => { return (_pages[0].data_order ?? [  ]).indexOf(_previous) - (_pages[0].data_order ?? [  ]).indexOf(_current) }).map(_option => {
                 return {
                     name: _pages[0].datas[_option].name,
                     code: _option
@@ -64,6 +64,7 @@ export class PageController {
         spreadsheet_id: string,
         filtering: Array<{ name: string, condition: { name: string, value: string } }>,
         datas: { [ data in string ]: { name: string } },
+        data_order: Array<string>,
         sheets: { [ name in string ]: { zone: string, datas: { [ data in string ]: string } } },
         interval: number
     }, @Response() _response: Express.Response, @Next() _next: Express.NextFunction) {
@@ -73,6 +74,7 @@ export class PageController {
         _Page.spreadsheet_id = _body.spreadsheet_id
         _Page.filtering = _body.filtering
         _Page.datas = _body.datas
+        _Page.data_order = _body.data_order
         _Page.sheets = _body.sheets
         _Page.interval = _body.interval
 
